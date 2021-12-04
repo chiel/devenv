@@ -5,6 +5,9 @@ on:
     branches:
       - '*'
 
+env:
+  DOCKER_BUILDKIT: 1
+
 jobs:
   docker-lint:
     name: Lint Dockerfile
@@ -16,3 +19,25 @@ jobs:
         with:
           entrypoint: hadolint
           args: Dockerfile
+
+  docker-build:
+    name: Build docker image
+    runs-on: ubuntu-latest
+    needs:
+      - docker-lint
+    steps:
+      - uses: actions/checkout@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build docker image
+        run: >-
+          docker build
+          -t ghcr.io/$GITHUB_REPOSITORY:latest
+          -t ghcr.io/$GITHUB_REPOSITORY:$GITHUB_SHA
+          .
+      - name: Push image to GitHub Container Registry
+        run: docker push -a ghcr.io/$GITHUB_REPOSITORY

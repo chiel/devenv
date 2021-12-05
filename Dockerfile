@@ -24,6 +24,9 @@ RUN apt-get install -y --no-install-recommends locales \
 RUN apt-get install -y --no-install-recommends \
         ca-certificates curl git jq tree
 
+# install python 3
+RUN apt-get install -y --no-install-recommends python3 python3-pip
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 CMD ["bash"]

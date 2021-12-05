@@ -31,6 +31,12 @@ RUN apt-get install -y --no-install-recommends python2 \
 # install python 3
 RUN apt-get install -y --no-install-recommends python3 python3-pip
 
+# install nvm + node + latest npm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash \
+    && source $XDG_CONFIG_HOME/nvm/nvm.sh \
+    && nvm install lts/* \
+    && npm install -g npm
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 CMD ["bash"]

@@ -24,6 +24,10 @@ RUN apt-get install -y --no-install-recommends locales \
 RUN apt-get install -y --no-install-recommends \
         ca-certificates curl git jq tree
 
+# install python 2
+RUN apt-get install -y --no-install-recommends python2 \
+    && curl -o- https://bootstrap.pypa.io/pip/2.7/get-pip.py --output get-pip.py | python2
+
 # install python 3
 RUN apt-get install -y --no-install-recommends python3 python3-pip
 

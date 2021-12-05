@@ -20,6 +20,10 @@ RUN apt-get install -y --no-install-recommends locales \
     && sed -i 's/^# *\(en_GB.UTF-8\)/\1/' /etc/locale.gen \
     && locale-gen
 
+# install development packages
+RUN apt-get install -y --no-install-recommends \
+        ca-certificates curl git jq tree
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 CMD ["bash"]

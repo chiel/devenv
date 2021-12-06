@@ -37,6 +37,23 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | b
     && nvm install lts/* \
     && npm install -g npm
 
+# install neovim + providers
+ENV EDITOR=nvim
+RUN apt-get install -y --no-install-recommends \
+        autoconf automake cmake doxygen g++ gettext libtool libtool-bin make ninja-build pkg-config python2-dev unzip \
+    && git clone -b stable --depth 1 --single-branch https://github.com/neovim/neovim /tmp/neovim \
+    && cd /tmp/neovim \
+    && make CMAKE_BUILD_TYPE=Release \
+    && make install \
+    && cd - \
+    && rm -rf /tmp/neovim \
+    && python2 -m pip install --no-cache-dir pynvim \
+    && python3 -m pip install --no-cache-dir pynvim \
+    && source $XDG_CONFIG_HOME/nvm/nvm.sh \
+    && npm install -g neovim \
+    && apt-get remove -y \
+        autoconf automake cmake doxygen g++ gettext libtool libtool-bin make ninja-build pkg-config python2-dev unzip
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 CMD ["bash"]

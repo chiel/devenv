@@ -37,6 +37,11 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | b
     && nvm install lts/* \
     && npm install -g npm
 
+# install go
+ENV PATH /usr/local/go/bin:$PATH
+ENV GOLANG_VERSION 1.17.4
+COPY --from=golang:1.17.4-bullseye /usr/local/go /usr/local/go
+
 # install neovim + providers
 ENV EDITOR=nvim
 RUN apt-get install -y --no-install-recommends \
@@ -57,7 +62,8 @@ RUN apt-get install -y --no-install-recommends \
 # copy neovim config, install plugins
 COPY .config .config
 RUN git clone https://github.com/VundleVim/Vundle.vim.git $XDG_CONFIG_HOME/nvim/bundle/Vundle.vim \
-    && nvim --headless +PluginInstall +qa
+    && nvim --headless +PluginInstall +qa \
+    && nvim --headless +GoInstallBinaries +qa
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

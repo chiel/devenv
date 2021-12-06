@@ -22,7 +22,7 @@ RUN apt-get install -y --no-install-recommends locales \
 
 # install development packages
 RUN apt-get install -y --no-install-recommends \
-        ca-certificates curl git jq tree
+        ca-certificates curl git jq silversearcher-ag tree
 
 # install python 2
 RUN apt-get install -y --no-install-recommends python2 \
@@ -53,6 +53,11 @@ RUN apt-get install -y --no-install-recommends \
     && npm install -g neovim \
     && apt-get remove -y \
         autoconf automake cmake doxygen g++ gettext libtool libtool-bin make ninja-build pkg-config python2-dev unzip
+
+# copy neovim config, install plugins
+COPY .config .config
+RUN git clone https://github.com/VundleVim/Vundle.vim.git $XDG_CONFIG_HOME/nvim/bundle/Vundle.vim \
+    && nvim --headless +PluginInstall +qa
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

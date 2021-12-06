@@ -61,4 +61,12 @@ RUN git clone https://github.com/VundleVim/Vundle.vim.git $XDG_CONFIG_HOME/nvim/
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# set up home directory
+RUN rm .bashrc .profile \
+    && curl -o .git-completion.bash https://raw.githubusercontent.com/git/git/master/contrib/completion/git-completion.bash \
+    && curl -o .git-prompt.sh https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh
+
+COPY .bash_profile .
+COPY .bashrc .
+
 CMD ["bash"]

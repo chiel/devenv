@@ -1,0 +1,75 @@
+[alias]
+	b = branch
+	t = tag
+	d = diff --stat -p -C
+	ds = diff --staged --stat -p -C
+	ci = commit -v
+	co = checkout
+	st = status -sb -uall
+	amend = commit -v --amend
+	ll = log --graph --date=relative --topo-order --pretty='format:%C(yellow)%h%C(yellow)%d %Cblue%ar %Cgreenby %an%Creset -- %s'
+	guilt = "!f(){ git log --pretty='format:%an <%ae>' $@ | sort | uniq -c | sort -rn; }; f"
+
+[apply]
+	whitespace = nowarn
+
+[blame]
+	date = relative
+
+[branch]
+	autosetuprebase = always
+
+[branch "master"]
+	rebase = true
+
+[color]
+	ui = auto
+	branch = auto
+	diff = auto
+	status = auto
+
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+
+[color "diff"]
+	meta = blue bold
+	frag = magenta bold
+	old = red
+	new = green
+
+[color "status"]
+	added = blue bold
+	changed = green bold
+	untracked = cyan bold
+
+[core]
+	autocrlf = input
+	safecrlf = true
+	ignorecase = false
+
+[diff]
+	renames = true
+	tool = vimdiff
+
+[difftool]
+	prompt = false
+
+[init]
+	defaultBranch = master
+
+[merge]
+	tool = vimdiff
+
+[mergetool]
+	prompt = false
+
+[mergetool "vimdiff"]
+	cmd = nvim -d $LOCAL $MERGED $REMOTE
+
+[pack]
+	threads = 0
+
+[push]
+	default = tracking

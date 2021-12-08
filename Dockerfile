@@ -75,4 +75,7 @@ RUN rm .bashrc .profile \
 COPY .bash_profile .
 COPY .bashrc .
 
+# global git config
+COPY gitconfig /etc
+
 CMD ["bash"]

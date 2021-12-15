@@ -78,4 +78,6 @@ COPY .bashrc .
 # global git config
 COPY gitconfig /etc
 
+WORKDIR /root/src
+
 CMD ["bash"]

@@ -80,4 +80,4 @@ COPY gitconfig /etc
 
 WORKDIR /root/src
 
-CMD ["bash"]
+CMD ["nvim"]
